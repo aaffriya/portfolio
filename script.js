@@ -41,7 +41,7 @@ navLinks.forEach(link => {
 const navbar = document.getElementById('navbar');
 let lastScroll = 0;
 
-window.addEventListener('scroll', () => {
+function handleNavbarScroll() {
     const currentScroll = window.pageYOffset;
     
     // Add scrolled class for styling
@@ -52,7 +52,7 @@ window.addEventListener('scroll', () => {
     }
     
     lastScroll = currentScroll;
-});
+}
 
 // Smooth scroll with offset for fixed navbar
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -121,31 +121,7 @@ function highlightNavLink() {
     });
 }
 
-window.addEventListener('scroll', highlightNavLink);
-
-// Add click ripple effect to buttons
-const buttons = document.querySelectorAll('.btn');
-buttons.forEach(button => {
-    button.addEventListener('click', function(e) {
-        const ripple = document.createElement('span');
-        ripple.classList.add('ripple');
-        
-        const rect = this.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
-        
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        
-        this.appendChild(ripple);
-        
-        setTimeout(() => ripple.remove(), 600);
-    });
-});
-
-// Performance: Debounce scroll events
+// Combine all scroll handlers with debouncing for performance
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -158,11 +134,14 @@ function debounce(func, wait) {
     };
 }
 
-// Apply debounce to scroll handler
-const debouncedScrollHandler = debounce(() => {
+// Combined scroll handler
+function handleScroll() {
+    handleNavbarScroll();
     highlightNavLink();
-}, 50);
+}
 
+// Apply debounce to scroll handler
+const debouncedScrollHandler = debounce(handleScroll, 50);
 window.addEventListener('scroll', debouncedScrollHandler);
 
 // Preload performance optimization

@@ -33,6 +33,7 @@ body {
     color: var(--text-primary);
     background-color: var(--dark-bg);
     overflow-x: hidden;
+    animation: fadeIn 0.5s ease-in;
 }
 
 .container {
@@ -207,6 +208,8 @@ body {
     transition: var(--transition);
     display: inline-block;
     border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-primary {
@@ -534,8 +537,4 @@ section {
     to {
         opacity: 1;
     }
-}
-
-body {
-    animation: fadeIn 0.5s ease-in;
 }
